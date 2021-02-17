@@ -11,4 +11,4 @@ pulp rpm repository create --name $repo_name --remote $remote_name
 pulp rpm repository sync --name $repo_name
 pulp rpm publication create --repository $repo_name
 
-echo "Created rpm repo $repo_name"
+echo "Created, synced, and published repo $repo_name"
