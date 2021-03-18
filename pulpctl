@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# manage the pulpcore systemd units
+#
+# pulpctl [action]
+#
+# examples:
+#   pulpctl status
+#   pulpctl restart
+
+PULP_SERVICES="pulpcore-api|pulpcore-content|pulpcore-resource-manager|pulpcore-worker"
+systemctl list-units --all pulpcore* | grep -E "$PULP_SERVICES" | cut -d' ' -f1 | xargs sudo systemctl $@
