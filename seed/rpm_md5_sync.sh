@@ -2,13 +2,14 @@
 
 set -ev
 
-repo_name="md5-repo$RANDOM"
-remote_name="md5-remote$RANDOM"
+name="rpm-md5-$RANDOM"
 url="https://fixtures.pulpproject.org/rpm-with-md5/"
+policy="immediate"
 
-pulp rpm remote create --name $remote_name --url $url
-pulp rpm repository create --name $repo_name --remote $remote_name
-pulp rpm repository sync --name $repo_name
-pulp rpm publication create --repository $repo_name
+pulp rpm remote create --name $name --url $url --policy $policy
+pulp rpm repository create --name $name --remote $name
+pulp rpm repository sync --name $name
+publication=$(pulp rpm publication create --repository $name | jq -r ".pulp_href")
+pulp rpm distribution create --name $name --base-path $name --publication $publication
 
-echo "Created, synced, and published repo $repo_name"
+echo "Created repo $name"
